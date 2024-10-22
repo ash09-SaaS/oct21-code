@@ -1,0 +1,17 @@
+node() {
+   stage('Download code from git') 
+       {
+    git branch: 'test', url: 'https://github.com/ash09-SaaS/oct21-code.git'
+       }
+
+stage('convert into artifacts') 
+      {
+   sh 'mvn package '
+      }
+
+stage('Deploy into container ') 
+      {
+     deploy adapters: [tomcat9(credentialsId: '59d77fb3-531e-45df-a219-aa6562646109', path: '', url: 'http://35.154.216.10:8080/')], contextPath: '/jenkinstetapp', war: '**/*.war'
+      }
+
+}
